@@ -16,6 +16,119 @@
 
 <?php
 
+echo "Hello world";
+
+echo '<h2>Nadpis</h2>'."\n";
+
+$text = 'prvni text';
+
+echo $text.'<br>';
+
+//inline komentář
+
+/*
+ * komentář 1
+ * komentář 2
+ */
+
+//Bolean proměnné, hodnoty true, false
+
+$bool1 = true;
+echo $bool1.'<br>';
+
+//Číselné proměnné
+$num1 = 2;
+echo 'Číselná proměnná: '.$num1.'<br>';
+
+//Float;
+$num2 = 5.2;
+
+//Základní operace +, -, *, /
+$resultNum = $num1 + $num2;
+
+echo 'Výsledek: '.$resultNum.'<br>';
+
+echo 'Počet znaků proměnné $text: '.strlen($text).'<br>';
+
+//Dlouhý zápis, obsolete
+$numbers = array();
+//Prvni hodnota, inxdex 0
+$numbers[] = 10;
+$numbers[] = 20;
+$numbers[] = 30;
+
+echo 'První prvek má hodnotu: '.$numbers[0].'<br>';
+
+//Zkrácený zápis - nové pole
+$floats = [];
+$floats[0] = 10.2;
+$floats[4] = 15.7;
+$floats[8] = 16.8;
+$floats[12] = 20.9;
+
+//Asociativní pole
+$names = [];
+$names['first'] = 'Petr';
+$names['second'] = 'Jana';
+
+echo 'První jméno má hodnotu: '.$names['first'].'<br>';
+
+//Analogický zápis
+$names2 = ['first' => 'Petr', 'second' => 'Jana'];
+
+//Konstanty
+define("_VERSION", 2);
+
+//Podmínka
+$a1 = 10;
+
+if ($a1 == 10) {
+    echo 'Pravda'.'<br>';
+} else {
+    echo 'Nepravda'.'<br>';
+}
+
+//Cykly
+for ($i=0;$i<10;$i++) {
+    echo $i.'<br>';
+}
+
+//Klasický foreach
+foreach($numbers as $number) {
+    echo $number.'<br>';
+}
+
+//Foreach pro asociativní pole
+foreach($names as $key => $value) {
+    echo $key.': '.$value.'<br>';
+}
+
+$numbers[0] > 15 ? $d = 'ano' : $d = 'ne';
+
+$b1 = 10;
+if ($b1 == 10) {
+    echo '10';
+} elseif ($b1 > 10) {
+    echo 'vetsi';
+} else {
+    echo 'mensi';
+}
+
+echo '<br>';
+
+function sum($a, $b) {
+    return $a + $b;
+}
+
+echo sum(10, 20);
+
+
+
+
+
+
+
+
 ?>
 
 </div>
