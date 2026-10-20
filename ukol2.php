@@ -1,100 +1,55 @@
 <?php
 declare(strict_types=1);
 
-
 function formatYoutubeUrl(string $url): string {
-    $queryString = parse_url($url, PHP_URL_QUERY);
-    if ($queryString === null) {
-        return $url;
-    }
-
-    parse_str($queryString, $queryParams);
-
-    if (isset($queryParams['v']) && !empty($queryParams['v'])) {
-        return 'https://www.youtube.com/embed/' . $queryParams['v'];
-    }
-
-    return $url;
+    return str_replace('watch?v=', 'embed/', $url);
 }
-
 
 function getWorkingDays(string $from, string $to): array {
-    $workingDays = [];
-
-    $currentDate = new DateTimeImmutable($from);
-    $endDate = new DateTimeImmutable($to);
-
-
-    if ($currentDate > $endDate) {
-        return [];
-    }
-
-    while ($currentDate <= $endDate) {
-        $dayOfWeek = (int)$currentDate->format('N');
-
-        if ($dayOfWeek >= 1 && $dayOfWeek <= 5) {
-            $workingDays[] = $currentDate->format('Y-m-d');
+    $days = [];
+    for ($cur = strtotime($from), $end = strtotime($to); $cur <= $end; $cur = strtotime('+1 day', $cur)) {
+        if (date('N', $cur) < 6) {
+            $days[] = date('Y-m-d', $cur);
         }
-
-        $currentDate = $currentDate->modify('+1 day');
     }
-
-    return $workingDays;
+    return $days;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="cs">
 <head>
     <meta charset="utf-8">
     <title>Úkol 2 – Demonstrace funkcí</title>
-    <style>
-        body { font-family: sans-serif; line-height: 1.5; padding: 20px; max-width: 900px; margin: auto; }
-        h2 { border-bottom: 2px solid #ddd; padding-bottom: 5px; margin-top: 30px; }
-        pre { background: #f4f4f4; padding: 12px; border-radius: 6px; }
-        .demo-box { margin-bottom: 20px; }
-    </style>
 </head>
 <body>
 
-<h1>Demonstrace funkcí </h1>
+<h2>1. Testování funkce formatYoutubeUrl($url)</h2>
+<?php
+$urls = [
+    'https://www.youtube.com/watch?v=Gl_Dnf_aGfQ',
+    'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    'https://www.youtube.com/watch?v=OyYA8FlfBd0',
+    'https://www.youtube.com/watch?v=s85iFQakA-U&list=RDs85iFQakA-U&start_radio=1'
+];
 
-<h2>1. Testování funkce <code>formatYoutubeUrl($url)</code></h2>
-<div class="demo-box">
-    <?php
-    $testUrls = [
-        'https://www.youtube.com/watch?v=Gl_Dnf_aGfQ',
-        'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-        'https://www.youtube.com/watch?v=LXb3EKWsInQ&t=42s',
-        'https://www.youtube.com/watch?v=kffacxfA7G4'
-    ];
+foreach ($urls as $url) {
+    echo "<p>Vstup: $url <br> Výstup: <b>" . formatYoutubeUrl($url) . "</b></p>";
+}
+?>
 
-    foreach ($testUrls as $url) {
-        $embedUrl = formatYoutubeUrl($url);
-        echo "<p>";
-        echo "<strong>Vstup:</strong> " . htmlspecialchars($url) . "<br>";
-        echo "<strong>Výstup:</strong> <code>" . htmlspecialchars($embedUrl) . "</code>";
-        echo "</p>";
-    }
-    ?>
-</div>
+<h2>2. Testování funkce getWorkingDays($from, $to)</h2>
+<pre>
+<?php
+echo "Interval 2024-10-17 až 2024-10-25:\n";
+print_r(getWorkingDays('2024-10-17', '2024-10-25'));
 
-<h2>2. Testování funkce <code>getWorkingDays($from, $to)</code></h2>
+echo "\nInterval 2024-10-01 až 2024-10-30:\n";
+print_r(getWorkingDays('2024-10-01', '2024-10-30'));
 
-<div class="demo-box">
-    <h3>Interval 1 (ze zadání): 2024-10-17 až 2024-10-25</h3>
-    <pre><?php print_r(getWorkingDays('2024-10-17', '2024-10-25')); ?></pre>
-</div>
-
-<div class="demo-box">
-    <h3>Interval 2: 2024-10-01 až 2024-10-10</h3>
-    <pre><?php print_r(getWorkingDays('2024-10-01', '2024-10-10')); ?></pre>
-</div>
-
-<div class="demo-box">
-    <h3>Interval 3: 2024-11-15 až 2024-12-04</h3>
-    <pre><?php print_r(getWorkingDays('2024-11-15', '2024-12-04')); ?></pre>
-</div>
+echo "\nInterval 2024-11-15 až 2024-12-04:\n";
+print_r(getWorkingDays('2024-11-15', '2024-12-04'));
+?>
+</pre>
 
 </body>
 </html>
