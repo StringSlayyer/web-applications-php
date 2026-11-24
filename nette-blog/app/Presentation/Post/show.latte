@@ -1,0 +1,73 @@
+{block content}
+<div class="row justify-content-center">
+	<div class="col-lg-8">
+		<div class="d-flex justify-content-between align-items-center mb-3">
+			<a n:href="Home:default" class="btn btn-link px-0 text-decoration-none"><i class="bi bi-arrow-left me-1"></i>Zpět na výpis příspěvků</a>
+			<a n:href="Edit:edit, $post->id" n:if="$user->isLoggedIn()" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil me-1"></i>Upravit příspěvek</a>
+		</div>
+
+		<article class="card shadow-sm border-0 mb-4">
+			<div class="card-body p-4 p-md-5">
+				<div class="text-muted small mb-2"><i class="bi bi-calendar3 me-1"></i>{$post->created_at|date:'j. n. Y'}</div>
+				<h1 n:block="title" class="fw-bold mb-4">{$post->title}</h1>
+				<div class="post-content fs-5">{$post->content}</div>
+			</div>
+		</article>
+
+		<section class="mb-4">
+			<h2 class="h4 mb-3"><i class="bi bi-chat-dots me-2"></i>Komentáře <span class="badge text-bg-secondary rounded-pill align-middle fs-6">{count($comments)}</span></h2>
+
+			{foreach $comments as $comment}
+				<div class="card shadow-sm border-0 mb-3">
+					<div class="card-body d-flex gap-3">
+						<div class="comment-avatar rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center flex-shrink-0">
+							{$comment->name|substr:0,1|upper}
+						</div>
+						<div>
+							<div class="fw-semibold">
+								<a href="mailto:{$comment->email}" n:tag-if="$comment->email" class="text-decoration-none">{$comment->name}</a>
+								<span class="text-muted fw-normal small">napsal:</span>
+							</div>
+							<div class="comment-content mt-1">{$comment->content}</div>
+						</div>
+					</div>
+				</div>
+			{else}
+				<p class="text-muted fst-italic">Zatím žádné komentáře. Buďte první!</p>
+			{/foreach}
+		</section>
+
+		<section class="card shadow-sm border-0">
+			<div class="card-body p-4">
+				<h2 class="h5 mb-3"><i class="bi bi-reply me-2"></i>Přidat komentář</h2>
+
+				<form n:name="commentForm">
+					<div class="alert alert-danger" n:ifcontent>
+						<div n:foreach="$form->ownErrors as $error">{$error}</div>
+					</div>
+
+					<div class="row g-3 mb-3">
+						<div class="col-md-6">
+							<label n:name="name" class="form-label">Jméno</label>
+							<input n:name="name" n:class="form-control, $form[name]->hasErrors() ? is-invalid">
+							<div class="invalid-feedback" n:ifcontent>{inputError name}</div>
+						</div>
+						<div class="col-md-6">
+							<label n:name="email" class="form-label">E-mail <span class="text-muted small">(nepovinné)</span></label>
+							<input n:name="email" n:class="form-control, $form[email]->hasErrors() ? is-invalid">
+							<div class="invalid-feedback" n:ifcontent>{inputError email}</div>
+						</div>
+					</div>
+
+					<div class="mb-3">
+						<label n:name="content" class="form-label">Komentář</label>
+						<textarea n:name="content" n:class="form-control, $form[content]->hasErrors() ? is-invalid" rows="4"></textarea>
+						<div class="invalid-feedback" n:ifcontent>{inputError content}</div>
+					</div>
+
+					<button n:name="send" class="btn btn-primary"><i class="bi bi-send me-1"></i>Publikovat komentář</button>
+				</form>
+			</div>
+		</section>
+	</div>
+</div>

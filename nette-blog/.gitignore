@@ -1,0 +1,22 @@
+# Composer / npm dependencies
+/vendor/
+/node_modules/
+
+# Nette runtime files
+/temp/*
+!/temp/.gitkeep
+/log/*
+!/log/.gitkeep
+
+# Vite build output
+/www/assets/
+
+# Local config / secrets
+/config/local.neon
+.env
+
+# IDE & OS
+/.idea/
+/.vscode/
+.DS_Store
+Thumbs.db
