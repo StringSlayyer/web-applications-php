@@ -1,36 +1,4 @@
 {block content}
-<div class="row justify-content-center">
-	<div class="col-sm-9 col-md-6 col-lg-5">
-		<div class="card shadow-sm border-0 mt-md-4">
-			<div class="card-body p-4 p-md-5">
-				<div class="text-center mb-4">
-					<div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary-subtle text-primary mb-3" style="width: 4rem; height: 4rem;">
-						<i class="bi bi-lock fs-3"></i>
-					</div>
-					<h1 n:block=title class="h3 mb-1">Přihlášení</h1>
-					<p class="text-muted small mb-0">Pro psaní a úpravu příspěvků se přihlaste.</p>
-				</div>
+<h1 n:block=title>Přihlášení</h1>
 
-				<form n:name="signInForm">
-					<div class="alert alert-danger py-2" n:ifcontent>
-						<div n:foreach="$form->ownErrors as $error"><i class="bi bi-exclamation-triangle me-1"></i>{$error}</div>
-					</div>
-
-					<div class="form-floating mb-3">
-						<input n:name="username" n:class="form-control, $form[username]->hasErrors() ? is-invalid" placeholder="Uživatelské jméno" autocomplete="username">
-						<label n:name="username">Uživatelské jméno</label>
-						<div class="invalid-feedback" n:ifcontent>{inputError username}</div>
-					</div>
-
-					<div class="form-floating mb-4">
-						<input n:name="password" n:class="form-control, $form[password]->hasErrors() ? is-invalid" placeholder="Heslo" autocomplete="current-password">
-						<label n:name="password">Heslo</label>
-						<div class="invalid-feedback" n:ifcontent>{inputError password}</div>
-					</div>
-
-					<button n:name="send" class="btn btn-primary btn-lg w-100"><i class="bi bi-box-arrow-in-right me-1"></i>Přihlásit</button>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
+{control signInForm}

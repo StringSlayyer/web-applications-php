@@ -1,29 +1,15 @@
 {block content}
-	<div class="hero p-4 p-md-5 mb-4 shadow-sm">
-		<h1 class="display-5 fw-bold mb-2">Můj blog</h1>
-		<p class="lead mb-4 opacity-75">Myšlenky, poznámky a novinky na jednom místě.</p>
-		<a n:href="Edit:create" n:if="$user->isLoggedIn()" class="btn btn-light btn-lg"><i class="bi bi-plus-lg me-1"></i>Napsat nový příspěvek</a>
-	</div>
+	<h1>Můj blog</h1>
+	<a n:href="Edit:create" n:if="$user->isLoggedIn()">Napsat nový příspěvek</a>
 
-	<div class="row g-4">
-		{foreach $posts as $post}
-			<div class="col-md-6 col-lg-4">
-				<div class="card post-card h-100 shadow-sm">
-					<div class="card-body d-flex flex-column">
-						<div class="text-muted small mb-2"><i class="bi bi-calendar3 me-1"></i>{$post->created_at|date:'j. n. Y'}</div>
-						<h2 class="card-title h5"><a n:href="Post:show, $post->id">{$post->title}</a></h2>
-						<p class="card-text text-secondary flex-grow-1">{$post->content|truncate:256}</p>
-						<a n:href="Post:show, $post->id" class="btn btn-sm btn-outline-primary align-self-start">Číst dál <i class="bi bi-arrow-right"></i></a>
-					</div>
-				</div>
-			</div>
-		{else}
-			<div class="col-12">
-				<div class="text-center text-muted py-5">
-					<i class="bi bi-inbox display-4 d-block mb-3"></i>
-					Zatím tu nejsou žádné příspěvky.
-				</div>
-			</div>
-		{/foreach}
-	</div>
+
+	{foreach $posts as $post}
+		<div class="post">
+			<div class="date">{$post->created_at|date:'F j, Y'}</div>
+
+			<h2><a n:href="Post:show, $post->id">{$post->title}</a></h2>
+
+			<div>{$post->content|truncate:256}</div>
+		</div>
+	{/foreach}
 {/block}
